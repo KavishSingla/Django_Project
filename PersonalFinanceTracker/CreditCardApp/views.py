@@ -30,7 +30,7 @@ def credit_view(request):
     cards = CreditCard.objects.all()
     return render(request ,'credit_cards.html',context={'cards': cards})
 
-
+@login_required
 def apply_card(request, card_id):
     card = get_object_or_404(CreditCard, id=card_id)
     if UserCardApplication.objects.filter(user=request.user).exists():
@@ -40,3 +40,19 @@ def apply_card(request, card_id):
         UserCardApplication.objects.create(user=request.user, credit_card=card)
         messages.success(request, "Card applied successfully!")
     return redirect('home')
+
+
+@login_required
+def delete_user_view(request, card_id):
+    user_card = UserCardApplication.objects.get(id=card_id)
+    
+    user_card.delete()
+    messages.success(request, 'User Credit Card deleted successfully!')
+   
+    return redirect('home')
+
+
+@login_required
+def all_credit_users_view(request):
+    cards = UserCardApplication.objects.all()
+    return render(request ,'allcards.html',context={'cards': cards})

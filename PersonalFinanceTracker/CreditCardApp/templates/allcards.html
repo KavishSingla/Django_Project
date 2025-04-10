@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Users</title>
+    <title>All Profiles</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -60,33 +60,28 @@
 <body>
 
     <div class="container">
-        {% if users %}
-            <h2 class="text-center">All Users Details</h2>
+        {% if cards %}
+            <h2 class="text-center">All Credit Card Applications</h2>
             <table class="table table-bordered table-hover mt-4">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Gender</th>
-                        <th>Phone</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
-                        <th>Action</th>
+                        <th>User Email</th>
+                        <th>Credit Card</th>
+                        <th>Applied On</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in users %}
+                    {% for card in cards %}
                         <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.gender }}</td>
-                            <td>{{ user.phone }}</td>
-                            <td>{{ user.created_at }}</td>
-                            <td>{{ user.updated_at }}</td>
+                            <td>{{ card.id }}</td>
+                            <td>{{ card.user }}</td>
+                            <td>{{ card.credit_card }}</td>
+                            <td>{{ card.applied_on }}</td>
                             <td>
-                                <a href="{% url 'delete_user' user.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                <a href="#" class="btn btn-success btn-sm me-2">Update</a>
+                                <a href="{% url 'delete_card' card.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this card?');">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -94,7 +89,7 @@
             </table>
         {% else %}
             <div class="no-data">
-                <h4>Oops! No users found.</h4>
+                <h4>Oops! No credit cards found.</h4>
             </div>
         {% endif %}
     </div>
