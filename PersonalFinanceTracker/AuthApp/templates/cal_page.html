@@ -1,0 +1,342 @@
+<html>
+ <head>
+  <title>
+   Money Calculators
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+       
+
+
+
+    body {
+margin: 0;
+font-family: Arial, sans-serif;
+background-color: #f8f9fa;
+}
+
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 30px;
+background-color: white;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+margin-left: 10px;
+}
+
+nav ul {
+list-style: none;
+display: flex;
+gap: 20px;
+}
+
+nav ul li a {
+text-decoration: none;
+color: #333;
+font-size: 16px;
+}
+
+
+
+.btn-outline {
+background: transparent;
+border: 2px solid #333;
+color: #333;
+}
+
+
+.sign{
+margin-right: 50px;
+}
+
+.title{
+margin-top: 10px;
+}
+
+
+
+.footer {
+/* background: #fff; */
+background-color: ghostwhite;
+text-align: center;
+padding: 20px;
+box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.1);
+height: 30vh;
+/* font-size: 32px; */
+}
+.footer a {
+color: #666;
+text-decoration: none;
+margin: 0 10px;
+font-size: 18px;
+}
+.footer a:hover {
+text-decoration: underline;
+}
+.footer p {
+color: #666;
+font-size: 20px;
+margin-top: 10px;
+}
+.divider {
+width: 80%;
+margin: 10px auto;
+border-top: 1px solid #ccc;
+}
+
+</style>
+
+
+ </head>
+ <body class="bg-white">
+
+
+ <!-- Header -->
+ <header class="navbar">
+    <div class="logo"><img src="../static/logo_final.jpg" alt="Mint Logo" width="50px" height="10px"></div>
+    <nav class="title">
+        <ul>
+
+            
+            <li><a href="{% url 'about' %}">About </a></li>
+
+            
+
+            <li><a href="{% url 'credit' %}">Credit Cards</a></li>
+            <li><a href="{% url 'calculator' %}">Calculators</a></li>
+
+            <div class="dropdown ">
+                <button style="border: none;background-color: white;" class="dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Resources
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'networth' %}">Net Worth</a></li>
+                  <li><a class="dropdown-item" href="{% url 'check_it_out' %}">Investing</a></li>
+                 
+                </ul>
+              </div>
+
+              <li><a href="{% url 'contact' %}">Contact </a></li>
+            
+        </ul>
+    </nav>
+    
+    {% if user.is_authenticated %}
+
+
+    <div class="auth-buttons sign">
+        
+        <a href="{% url 'profile' %}" class="btn" style="border: 2px solid;">  <i class="fa-solid fa-user icon"></i>  Profile</a>
+
+      
+        <a href="#" class="btn" style="border: 2px solid;" onclick="return confirm('Are you sure, you want to logout ?')"> <i class="fa-solid fa-sign-out-alt icon"></i> Logout</a>
+    
+        
+    </div>
+
+    {% else %}
+    <div class="auth-buttons sign">
+        
+        <a href="{% url 'register' %}" class="btn" style="border: 2px solid;"> <i class="fa-solid fa-user-plus icon"></i> Sign up</a>
+
+      
+        <a href="{% url 'login' %}" class="btn" style="border: 2px solid;">  <i class="fa-solid fa-sign-in-alt icon"></i>  Sign In</a>
+    
+        
+    </div>
+    
+    {% endif %}
+
+</header>
+        
+
+
+
+
+
+  <!-- Main Content -->
+
+
+
+  <main class="bg-green-100 py-16" style="display: flex; height: 50vh; ">
+   <div class="container mx-auto px-4 text-center" style="width: 500px; margin-top: 80px; margin-left: 350px;">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4" style="font-size: 50px;">
+     Money Calculators
+    </h1>
+    <p class="text-lg text-gray-700 mb-8" >
+    Budget Bee's money calculators can help you estimate your savings, see how compound interest works, and much more.
+    </p>
+
+    </div>
+    <div class="flex justify-center" style="margin-right: 350px;">
+     <img alt="Hand holding a coin with a dollar sign" class="" height="300" src="../static/money_cal_rem.png" width="250"/>
+    </div>
+  
+  </main>
+
+
+
+
+<div class="size" style="height: 70vh; margin-top: 6vh;">
+
+
+  <!-- Breadcrumb -->
+  <div class="container mx-auto px-4 py-4">
+   <nav class="text-sm text-gray-600">
+    <a class="text-green-600 hover:underline" style="margin-left: 80px; font-size: 20px;" href="#">
+      
+    </a>
+    
+    <a class="text-green-600 hover:underline" style="font-size: 20px;" href="#">
+    
+    </a>
+    
+    <!-- <span>
+     Money Calculators
+    </span> -->
+   </nav>
+  </div>
+
+<!-- #----------------------- -->
+
+
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+     <!-- 401(k) Calculator -->
+     <div class="flex items-start space-x-4 " style="margin-left: 40px;">
+      <img alt="Dollar sign on a document" class="w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/IOfOcQWVjqe1aELdoA440Xs9gV_J7CPIthPpJmsptLA.jpg" width="50"/>
+      <div>
+       <h2 class="text-lg font-bold text-green-600">
+        <a href="{% url 'emi' %}">
+        EMI Calculator
+        </a>
+       </h2>
+       <p>
+        Estimate how much you could have in your account by the time you retire.
+       </p>
+      </div>
+     </div>
+     <!-- Budget Calculator -->
+     <div class="flex items-start space-x-4">
+      <img alt="Stack of dollar bills" class="w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/dk8IlSyEjjkgeC6bBX5HiKnC5nIuEt3fD9VqGevG5Yg.jpg" width="50"/>
+      <div>
+       <h2 class="text-lg font-bold text-green-600">
+        <a href="{% url 'fd' %}">
+         FD Calculator
+        </a>
+       </h2>
+       <p>
+        Get a clearer picture of how much money you’re spending, what you’re spending it on and where you could improve.
+       </p>
+      </div>
+     </div>
+     <!-- Compound Interest Calculator -->
+     <div class="flex items-start space-x-4" style="margin-left: 40px;">
+      <img alt="Percentage sign on a document" class="w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/nPtekE2fkU-P4NaJmhriikYIbefGdoAUUSvlDVXwGzs.jpg" width="50"/>
+      <div>
+       <h2 class="text-lg font-bold text-green-600">
+        <a href="{% url 'rd' %}">
+         RD Calculator
+        </a>
+       </h2>
+       <p>
+        See the effect of compound interest on your money and how compounding frequency can make a real difference.
+       </p>
+      </div>
+     </div>
+     <!-- Inflation Calculator -->
+     <div class="flex items-start space-x-4">
+      <img alt="Dollar sign with circular arrows" class="w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/34Qztx3fYnNsWhH_KfyJWjJwSfovtLKpPteEdhy7yQw.jpg" width="50"/>
+      <div>
+       <h2 class="text-lg font-bold text-green-600">
+        <a href="{% url 'savings' %}">
+         Savings Calculator
+        </a>
+       </h2>
+       <p>
+        Use this inflation calculator to see how much money from the past is worth today — or the other way around!
+       </p>
+      </div>
+     </div>
+     <!-- Retirement Calculator -->
+     <div class="flex items-start space-x-4" style="margin-left: 40px;">
+      <img alt="Dollar sign on a green circle" class="w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/Hc6JUg3QNPlb8sYJ8CRMuJiwQa3SmRdHf3dwexDptj8.jpg" width="50"/>
+      <div>
+       <h2 class="text-lg font-bold text-green-600">
+        <a href="{% url 'sip' %}">
+         SIP Calculator
+        </a>
+       </h2>
+       <p>
+        See how much money you could save by the time you retire, along with an annual breakdown of how much your estimated retirement savings could grow.
+       </p>
+      </div>
+     </div>
+    
+    </div>
+   </div>
+ 
+
+</div>
+ 
+<!-- ------------------------------------------------------------- -->
+<div class="bg-gradient-to-r from-blue-900 to-purple-900 text-white">
+<footer class="py-10">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+            <h2 class="text-2xl font-bold mb-4">Budget Bee</h2>
+            <p>Subscribe Easy Tutorials Youtube channel to watch more videos on website development and Press the bell icon to get immediate notification of latest videos.</p>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold mb-4">Office</h3>
+            <p>Chitkara University<br>Rajpura, near Jhansla<br>Punjab, PIN 140401,<br>India</p>
+            <p class="mt-2"><a href="mailto:avinashdm@outlook.com" class="text-white">budgetbee@gmail.com</a></p>
+            <p class="mt-2">+91 - 0123456789</p>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold mb-4">Links</h3>
+            <ul>
+                <li class="mb-2"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                <li class="mb-2"><a href="{% url 'calculator' %}" class="text-white">Services</a></li>
+                <li class="mb-2"><a href="{% url 'about' %}" class="text-white">About Us</a></li>
+                
+                <li class="mb-2"><a href="{% url 'contact' %}" class="text-white">Contacts</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+            <div class="flex items-center border-b border-gray-400 py-2">
+                <i class="fas fa-envelope mr-2"></i>
+                <input class="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Enter your email id" aria-label="Email">
+                <button class="flex-shrink-0 text-white border-transparent border-4 hover:text-gray-400">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="flex mt-4 space-x-4">
+                <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="border-t border-gray-400 mt-8"></div>
+    <div class="text-center mt-4">
+        <p>Budget Bee © 2025 - All Rights Reserved</p>
+    </div>
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ </body>
+</html>
