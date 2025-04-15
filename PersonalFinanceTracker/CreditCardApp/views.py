@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import CreditCard, UserCardApplication
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import CreditCardForm
 
 # @login_required
 # def credit_card_list(request):
@@ -24,6 +25,18 @@ from django.contrib import messages
 #         UserCardApplication.objects.create(user=request.user, credit_card=card)
 #         messages.success(request, "Card applied successfully!")
 #     return redirect('credit')
+
+@login_required
+def add_card(request):
+    if request.method == 'POST':
+        form = CreditCardForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('credit')
+    else:
+        form = CreditCardForm()
+    return render(request, 'add_card.html', context={'form': form})
+
 
 @login_required
 def credit_view(request):

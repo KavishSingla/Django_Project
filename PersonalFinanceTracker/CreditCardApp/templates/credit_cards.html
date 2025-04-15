@@ -170,7 +170,7 @@ margin-top: 10px;
 
  <!-- Header -->
  <header class="navbar">
-    <div class="logo"><img src="../static/logo_final.jpg" alt="Mint Logo" width="50px" height="10px"></div>
+    <div class="logo"><img src="../../AuthApp/static/images/logo_final.jpg" alt="Mint Logo" width="50px" height="10px"></div>
     <nav class="title">
         <ul>
 
@@ -201,6 +201,7 @@ margin-top: 10px;
     {% if user.is_superuser %}
     <div class="auth-buttons sign">
         <a href="{% url 'allcards' %}" class="btn" style="border: 2px solid;"><i class="fas fa-credit-card"></i> All Card User's</a>
+        <a href="{% url 'add_card' %}" class="btn" style="border: 2px solid;"> <i class="fa-solid fa-user icon"></i> Add New Card</a>
         <a href="{% url 'profile' %}" class="btn" style="border: 2px solid;"> <i class="fa-solid fa-user icon"></i> Profile</a>
         <a href="{% url 'logout' %}" class="btn" style="border: 2px solid;" onclick="return confirm('Are you sure, you want to logout ?')"> <i class="fa-solid fa-sign-out-alt icon"></i> Logout</a>
     </div>
