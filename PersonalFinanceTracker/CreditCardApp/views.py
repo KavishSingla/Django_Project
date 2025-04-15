@@ -2,20 +2,32 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import CreditCard, UserCardApplication
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CreditCardForm
 
+
+# ----------------------------------------------------------
 
 @login_required
 def add_card(request):
-    if request.method == 'POST':
-        form = CreditCardForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('credit')
-    else:
-        form = CreditCardForm()
-    return render(request, 'add_card.html', context={'form': form})
 
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
+
+        if name and description and image:
+            CreditCard.objects.create(
+                name=name,
+                description=description,
+                image=image
+            )
+            messages.success(request, "Credit card added successfully!")
+            return redirect('credit')
+        else:
+            messages.error(request, "All fields are required!")
+
+    return render(request, 'add_card.html')
+
+# --------------------------------------------------------------
 
 @login_required
 def credit_view(request):
