@@ -4,27 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CreditCardForm
 
-# @login_required
-# def credit_card_list(request):
-#     cards = CreditCard.objects.all()
-#     try:
-#         user_application = UserCardApplication.objects.get(user=request.user)
-#     except UserCardApplication.DoesNotExist:
-#         user_application = None
-#     return render(request, 'credit_cards.html', {
-#         'cards': cards,
-#         'user_application': user_application
-#     })
-
-# @login_required
-# def apply_card(request, card_id):
-#     card = get_object_or_404(CreditCard, id=card_id)
-#     if UserCardApplication.objects.filter(user=request.user).exists():
-#         messages.warning(request, "You have already applied for a credit card.")
-#     else:
-#         UserCardApplication.objects.create(user=request.user, credit_card=card)
-#         messages.success(request, "Card applied successfully!")
-#     return redirect('credit')
 
 @login_required
 def add_card(request):
@@ -55,6 +34,15 @@ def apply_card(request, card_id):
     return redirect('home')
 
 
+
+@login_required
+def all_credit_users_view(request):
+    cards = UserCardApplication.objects.all()
+    return render(request ,'allcards.html',context={'cards': cards})
+
+
+
+
 @login_required
 def delete_user_view(request, card_id):
     user_card = UserCardApplication.objects.get(id=card_id)
@@ -65,7 +53,51 @@ def delete_user_view(request, card_id):
     return redirect('home')
 
 
+#----------------–––––––––––––––––––––––––––––––––––––––--------------------------------------------------------------
+
+# @login_required
+# def update_credit_view(request, card_id):
+#     user_card = UserCardApplication.objects.get(id=card_id)
+#     if request.method == 'POST':
+#         user_card.credit_card = request.POST.get('credit_card')
+
+#         user_card.save()
+#         messages.success(request, "Profile updated successfully!")
+#         return redirect('profile')
+    
+
+
 @login_required
-def all_credit_users_view(request):
-    cards = UserCardApplication.objects.all()
-    return render(request ,'allcards.html',context={'cards': cards})
+def update_credit_view(request, card_id):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied. Superusers only.")
+        return redirect('home')
+
+    try:
+        user_card = UserCardApplication.objects.get(id=card_id)
+    except UserCardApplication.DoesNotExist:
+        messages.error(request, "Application not found.")
+        return redirect('allcards')
+
+    available_cards = CreditCard.objects.all()
+
+    if request.method == 'POST':
+        selected_card_id = request.POST.get('credit_card')
+        try:
+            selected_card = CreditCard.objects.get(id=selected_card_id)
+            user_card.credit_card = selected_card
+            user_card.save()
+            messages.success(request, "Credit card updated successfully!")
+        except CreditCard.DoesNotExist:
+            messages.error(request, "Selected credit card does not exist.")
+        
+        return redirect('allcards')
+
+    return render(request, 'update_credit.html', {
+        'user_card': user_card,
+        'available_cards': available_cards
+    })
+
+
+#----------------–––––––––––––––––––––––––––––––––––––––--------------------------------------------------------------
+

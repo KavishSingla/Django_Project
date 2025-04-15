@@ -40,7 +40,7 @@ def rd_view(request):
     return render(request , 'rdCalculator.html')
 
 def savings_view(request):
-    return render(request , 'calculator.html')
+    return render(request , 'savingscalculator.html')
 
 
 # # -----------------------CALCULATOR END-----------------------------------------

@@ -147,13 +147,13 @@
 
     <div class="profile-home" style="text-align: right; margin-left: 85vw; margin-top: 2vh; position: absolute; z-index: 10;"> 
 
-        <a href="{{url_for('calculator')}}" style="text-decoration: none; color: white;"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <a href="{% url 'calculator' %}" style="text-decoration: none; color: white;"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
 
 
     <div class="profile-home" style="text-align: right; margin-left: 90vw; margin-top: 2vh; position: absolute; z-index: 10;"> 
     
-        <a href="{{url_for('home')}}" style="text-decoration: none; color: white;"><i class="fa fa-home"></i>  Home</a>
+        <a href="{% url 'home' %}" style="text-decoration: none; color: white;"><i class="fa fa-home"></i>  Home</a>
         </div>
         
     </header>
