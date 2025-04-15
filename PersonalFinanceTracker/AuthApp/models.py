@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-
+from django.core.validators import MinLengthValidator
 
 class AppUserManager(BaseUserManager):
     def create_user(self, email, name,phone, gender, password=None, **extra_fields):
@@ -49,7 +49,7 @@ class AppUser(AbstractUser):
 
     # Adding extra field  inside the custom user class
     name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=10,validators=[MinLengthValidator(10)])
     created_at = models.DateTimeField(auto_now_add=True , null=True)
     updated_at = models.DateTimeField(auto_now=True , null=True)
     

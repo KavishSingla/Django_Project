@@ -4,7 +4,7 @@ from AuthApp.models import AppUser  # Import custom user model
 class CreditCard(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='card_images/', blank=True)
+    image = models.ImageField(upload_to='card_images/')
 
     def __str__(self):
         return self.name
