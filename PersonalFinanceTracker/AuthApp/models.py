@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.core.validators import MinLengthValidator
-
+from django.contrib.auth.models import User
+from django.conf import settings
 class AppUserManager(BaseUserManager):
     def create_user(self, email, name,phone, gender, password=None, **extra_fields):
         if not email:
