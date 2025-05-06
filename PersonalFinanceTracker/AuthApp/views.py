@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from .models import AppUser, Expense, Saving
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 from .models import AppUser
 import requests
 from django.http import JsonResponse
@@ -70,7 +74,8 @@ def savings_view(request):
 
 # # -----------------------CALCULATOR END-----------------------------------------
 
-
+def expense_view(request):
+    return render(request, 'expense.html')
 
 def networth_view(request):
     return render(request , 'networth.html')
@@ -235,7 +240,45 @@ def login_view(request):
     return render(request, 'login.html',)
 
 
+@csrf_exempt
+@login_required
+def add_expense(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        title = data.get('title')
+        amount = float(data.get('amount'))
+        saving = Saving.objects.get(user=request.user)
 
+        if saving.amount < amount:
+            return JsonResponse({'error': 'Insufficient savings'}, status=400)
+
+        Expense.objects.create(user=request.user, title=title, amount=amount)
+        saving.amount -= amount
+        saving.save()
+
+        return JsonResponse({'success': True, 'new_saving': saving.amount})
+
+@csrf_exempt
+@login_required
+def update_savings(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        amount = float(data.get('amount'))
+
+        saving, created = Saving.objects.get_or_create(user=request.user)
+        saving.amount = amount
+        saving.save()
+
+        return JsonResponse({'success': True, 'new_saving': saving.amount})
+
+@login_required
+def get_data(request):
+    expenses = Expense.objects.filter(user=request.user).order_by('-date')
+    saving = Saving.objects.get_or_create(user=request.user)[0]
+    return JsonResponse({
+        'savings': saving.amount,
+        'expenses': [{'title': e.title, 'amount': e.amount} for e in expenses]
+    })
 
 
 

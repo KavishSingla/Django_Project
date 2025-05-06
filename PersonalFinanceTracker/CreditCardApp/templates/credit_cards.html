@@ -154,11 +154,16 @@
     {% endif %}
 </div>
 
-<!-- Header -->
-<header class="navbar">
-    <div class="logo"><img src="../../AuthApp/static/images/logo_final.jpg" alt="Mint Logo" width="50px" height="10px"></div>
+
+
+
+ <!-- Header -->
+ <header class="navbar">
+    <div class="logo"><img src="../static/images/logo_final.jpg" alt="Mint Logo" width="50px" height="10px"></div>
     <nav class="title">
         <ul>
+
+            <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About </a></li>
             <li><a href="{% url 'credit' %}">Credit Cards</a></li>
             <li><a href="{% url 'calculator' %}">Calculators</a></li>
