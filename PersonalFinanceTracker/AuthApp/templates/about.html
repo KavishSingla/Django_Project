@@ -414,50 +414,7 @@
                 "phone": "1234567890"
             }
         };
-
-        // Function to replace template variables with data
-        function populateTemplate() {
-            // Replace description
-            document.querySelectorAll('.lead').forEach(element => {
-                if (element.textContent.includes('{{ about_info.description }}')) {
-                    element.textContent = aboutInfo.description;
-                }
-            });
-            
-            // Replace mission
-            document.querySelectorAll('.mission-vision-container .lead').forEach(element => {
-                if (element.textContent.includes('{{ about_info.mission }}')) {
-                    element.textContent = aboutInfo.mission;
-                }
-                if (element.textContent.includes('{{ about_info.vision }}')) {
-                    element.textContent = aboutInfo.vision;
-                }
-            });
-            
-            // Replace goals
-            const goalsList = document.querySelector('.goals-list');
-            if (goalsList) {
-                goalsList.innerHTML = '';
-                aboutInfo.goals.forEach(goal => {
-                    const li = document.createElement('li');
-                    li.textContent = goal;
-                    goalsList.appendChild(li);
-                });
-            }
-            
-            // Replace contact info
-            document.querySelectorAll('.contact-card p').forEach(element => {
-                if (element.textContent.includes('{{ about_info.contact.email }}')) {
-                    element.textContent = aboutInfo.contact.email;
-                }
-                if (element.textContent.includes('{{ about_info.contact.phone }}')) {
-                    element.textContent = aboutInfo.contact.phone;
-                }
-            });
-        }
-
-        // Call the function when the page loads
-        window.onload = populateTemplate;
-    </script>
+ </script>
+    
 </body>
 </html>
