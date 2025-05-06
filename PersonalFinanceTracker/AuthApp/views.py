@@ -10,6 +10,13 @@ from .models import AppUser, Expense, Saving
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .models import AppUser
+import requests
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import login as auth_login
+from django.shortcuts import get_object_or_404
+
 
 
 
@@ -21,7 +28,25 @@ def home_view(request):
 
 
 def about_view(request):
-    return render(request , 'about.html')
+    user = request.user
+
+    flask_api_url = "http://127.0.0.1:5000/aboutus"
+    jwt_token = request.session.get('jwt_token')  # Retrieve the token from the session
+
+    headers = {
+        'Authorization': f'Bearer {jwt_token}'  # Include the token in the Authorization header
+    }
+
+    try:
+        response = requests.get(flask_api_url)
+        if response.status_code == 200:
+            about_info = response.json()
+        else:
+            about_info = {"error": "Could not fetch about us information"}
+    except requests.exceptions.RequestException as e:
+        about_info = {"error": f"Error occurred: {e}"}
+
+    return render(request, 'about.html', {'user': user, 'about_info': about_info})
 
 
 
@@ -57,11 +82,51 @@ def networth_view(request):
 def check_it_out_view(request):
     return render(request , 'investing.html')
 
-def contact_view(request):
-    return render(request , 'contact.html')
 
-def profile_view(request):
-    return render(request , 'profile.html')
+
+
+
+@login_required
+def contact_view(request):
+
+
+    user = request.user
+
+    flask_api_url = "http://127.0.0.1:5000/contact"
+    jwt_token = request.session.get('jwt_token')  # Retrieve the token from the session
+
+    headers = {
+        'Authorization': f'Bearer {jwt_token}'  # Include the token in the Authorization header
+    }
+
+    try:
+        response = requests.get(flask_api_url)
+        if response.status_code == 200:
+            contact_info = response.json()  
+        else:
+            contact_info = {"error": "Could not fetch contact information"}
+    except requests.exceptions.RequestException as e:
+        contact_info = {"error": f"Error occurred: {e}"}
+
+    return render(request, 'contact.html', {'user': user, 'contact_info': contact_info})
+
+
+
+
+
+
+# def profile_view(request):
+#     return render(request , 'profile.html')
+
+
+
+
+
+
+@login_required
+def view_profile(request):
+    
+    return render(request, 'profile.html')
 
 
 
@@ -69,6 +134,8 @@ def profile_view(request):
 
 
 User = get_user_model()  # Use your custom user model
+
+
 def register_view(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -101,6 +168,7 @@ def register_view(request):
                 for error in e:
                     messages.error(request, error)
     return render(request, 'register.html')
+
 
 
 
@@ -168,6 +236,8 @@ def get_data(request):
 
 
 
+
+
 @login_required
 def update_user_view(request, user_id):
     user = AppUser.objects.get(id=user_id)
@@ -214,14 +284,7 @@ def all_profile_view(request):
 
 
 
-@login_required
-def view_profile(request):
-    # if not request.user.is_superuser:
-    #     messages.error(request, "Access denied: You are not authorized to view this page.")
-    #     return redirect('dashboard')  # Redirect to dashboard or home instead of showing raw 403
 
-
-    return render(request, 'profile.html')
 
 
 @login_required
