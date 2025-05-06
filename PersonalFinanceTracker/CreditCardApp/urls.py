@@ -7,6 +7,5 @@ urlpatterns = [
     path('apply-card/<int:card_id>/', views.apply_card, name='apply_card'),
     path('delete-card/<int:card_id>/', views.delete_user_view, name='delete_card'),
     path('add-card/', views.add_card, name='add_card'),
-    path('credit-cards/', views.credit_cards, name='credit_cards'),
     path('update-card/<int:card_id>/', views.update_credit_view, name='update_card')
 ]
