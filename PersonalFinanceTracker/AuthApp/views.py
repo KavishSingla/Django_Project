@@ -148,21 +148,21 @@ def contact_view(request):
 @login_required
 def all_contact_view(request):
     try:
+        print("hello world")
         response = requests.get('http://127.0.0.1:5000/allcontactsapi')
-        print(f"Response Status Code: {response.status_code}")  # Debugging
-        print(f"Response Content: {response.text}")  # Debugging
+        print(f"Response Status Code: {response.status_code}")
+        print(f"Response Content: {response.text}")
+
         if response.status_code == 200:
             contact_data = response.json()
-            print(contact_data)
+            print("Parsed contact data:", contact_data)
         else:
             contact_data = []
             messages.error(request, "Failed to retrieve contacts.")
     except requests.exceptions.ConnectionError:
         contact_data = []
         messages.error(request, "Could not connect to the Flask server.")
-
     return render(request, 'all_contact.html', {'contacts': contact_data})
-
 
 
 
@@ -325,11 +325,11 @@ def all_profile_view(request):
     return render(request, 'all_profile.html' , context={'users':users})
 
 
-@login_required
-def all_contact_view(request):
-    users = AppUser.objects.all()
+# @login_required
+# def all_contact_view(request):
+#     users = AppUser.objects.all()
 
-    return render(request, 'all_contact.html' , context={'users':users})
+#     return render(request, 'all_contact.html' , context={'users':users})
 
 
 
