@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Contact's</title>
+</head>
+<body>
+    <h1>Contact Messages</h1>
+    {% if contacts %}
+        <ul>
+            {% for contact in contacts %}
+                <li>
+                    <strong>{{ contact.name_contact }}</strong><br>
+                    {{ contact.email_contact }}<br>
+                    {{ contact.msg }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No contact messages found.</p>
+    {% endif %}
+</body>
+</html>

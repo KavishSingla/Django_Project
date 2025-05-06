@@ -23,6 +23,7 @@ def home_view(request):
 
 
 
+@login_required
 def about_view(request):
     user = request.user
 
@@ -47,7 +48,7 @@ def about_view(request):
 
 
 # # -----------------------CALCULATOR-----------------------------------------
-
+@login_required
 def calculator_view(request):
     return render(request , 'cal_page.html')
 
@@ -81,37 +82,82 @@ def check_it_out_view(request):
 
 
 
+# @login_required
+# def contact_view(request):
+
+
+#     user = request.user
+
+#     flask_api_url = "http://127.0.0.1:5000/contact"
+#     jwt_token = request.session.get('jwt_token')  # Retrieve the token from the session
+
+#     headers = {
+#         'Authorization': f'Bearer {jwt_token}'  # Include the token in the Authorization header
+#     }
+
+#     try:
+#         response = requests.get(flask_api_url)
+#         if response.status_code == 200:
+#             contact_info = response.json()  
+#         else:
+#             contact_info = {"error": "Could not fetch contact information"}
+#     except requests.exceptions.RequestException as e:
+#         contact_info = {"error": f"Error occurred: {e}"}
+
+#     return render(request, 'contact.html', {'user': user, 'contact_info': contact_info})
+
 @login_required
 def contact_view(request):
+    if request.method == 'POST':
+        # print(request.POST)
+        name_contact = request.POST.get('name_contact')
+        email_contact = request.POST.get('email_contact')
+        msg = request.POST.get('msg')
+        data = {
+            'name_contact': name_contact,
+            'email_contact': email_contact,
+            'msg': msg
+            
+        }
+        try:
+            response = requests.post('http://127.0.0.1:5000/contactapi', json=data)
+            # print(f"Response Status Code: {response.status_code}")  # Debugging
+            # print(f"Response Content: {response.text}")  # Debugging
+
+            result = response.json()
+            if response.status_code == 200:
+                messages.success(request, result.get('message', 'message sent successfully'))
+                return redirect('home')
+            else:
+                messages.error(request, result.get('error', ' failed.'))
+        except requests.exceptions.ConnectionError:
+            messages.error(request, 'Failed to connect to Flask server.')
+
+    return render(request, 'contact.html')
+    
 
 
-    user = request.user
 
-    flask_api_url = "http://127.0.0.1:5000/contact"
-    jwt_token = request.session.get('jwt_token')  # Retrieve the token from the session
 
-    headers = {
-        'Authorization': f'Bearer {jwt_token}'  # Include the token in the Authorization header
-    }
 
+@login_required
+def all_contact_view(request):
     try:
-        response = requests.get(flask_api_url)
+        response = requests.get('http://127.0.0.1:5000/allcontactsapi')
+        print(f"Response Status Code: {response.status_code}")  # Debugging
+        print(f"Response Content: {response.text}")  # Debugging
         if response.status_code == 200:
-            contact_info = response.json()  
+            contact_data = response.json()
+            print(contact_data)
         else:
-            contact_info = {"error": "Could not fetch contact information"}
-    except requests.exceptions.RequestException as e:
-        contact_info = {"error": f"Error occurred: {e}"}
+            contact_data = []
+            messages.error(request, "Failed to retrieve contacts.")
+    except requests.exceptions.ConnectionError:
+        contact_data = []
+        messages.error(request, "Could not connect to the Flask server.")
 
-    return render(request, 'contact.html', {'user': user, 'contact_info': contact_info})
+    return render(request, 'all_contact.html', {'contacts': contact_data})
 
-
-
-
-
-
-# def profile_view(request):
-#     return render(request , 'profile.html')
 
 
 
@@ -236,7 +282,11 @@ def all_profile_view(request):
     return render(request, 'all_profile.html' , context={'users':users})
 
 
+@login_required
+def all_contact_view(request):
+    users = AppUser.objects.all()
 
+    return render(request, 'all_contact.html' , context={'users':users})
 
 
 

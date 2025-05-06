@@ -1,27 +1,305 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - BudgetBee</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #20b2aa;
+        }
+
+        .contact-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .contact-heading {
+            max-width: 1000px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .contact-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
+            text-align: left;
+        }
+
+        .contact-box h2 {
+            color: #20b2aa;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            background-color: #20b2aa;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e9b90;
+        }
+
+        .faq-section {
+            margin-top: 10px;
+            max-width: 1000px;
+            width: 90%;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            color: white;
+        }
+
+
+
+        .footer {
+            background: linear-gradient(to right, #1E1E95, #5C2E94);
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .footer-column {
+            flex: 1;
+            margin: 10px;
+            min-width: 200px;
+        }
+        .footer-column h3 {
+            margin-bottom: 10px;
+        }
+        .footer-column a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .footer-column input {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            width: 80%;
+        }
+        .footer-column .social-icons {
+            margin-top: 10px;
+        }
+        .footer-column .social-icons a {
+            display: inline-block;
+            margin-right: 10px;
+            color: white;
+            font-size: 18px;
+        }
+        .footer-bottom {
+            text-align: center;
+            background: #302e5a;
+            color: white;
+            padding: 10px 0;
+        }
+
+
+
+
+    </style>
 </head>
+
 <body>
-
-    <div class="contact-info">
-        <p><strong>Company Name:</strong> {{ contact_info.company_name }}</p>
-        <p><strong>Address:</strong> {{ contact_info.address }}</p>
-        <p><strong>Phone:</strong> {{ contact_info.phone }}</p>
-        <p><strong>Email:</strong> <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a></p>
-        <p><strong>Support Email:</strong> <a href="mailto:{{ contact_info.support_email }}">{{ contact_info.support_email }}</a></p>
-        <p><strong>Working Hours:</strong> {{ contact_info.working_hours }}</p>
+    <div class="logout-msg">
+        {% if messages %}
+        {% for message in messages %}
+        <div id="alertBox" class="alert alert-warning  alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        	{% endif %}
+       
     </div>
 
-    <div class="social-media">
-        <p><strong>Follow us on:</strong></p>
-        <a href="{{ contact_info.social_media.facebook }}" target="_blank">Facebook</a>
-        <a href="{{ contact_info.social_media.twitter }}" target="_blank">Twitter</a>
-        <a href="{{ contact_info.social_media.instagram }}" target="_blank">Instagram</a>
-    </div>
+
+
+    <div class="profile-home btn btn-info" style="text-align: right; margin-left: 90vw; margin-top: 3vh; position: absolute;"> 
     
+        <a href="{% url 'home' %}" style="text-decoration: none; color: black;"><i class="fa fa-home "></i>  Home</a>
+        </div>
+
+
+
+        {% if user.is_superuser %}
+
+    <div  style="text-align: right; margin-left: 79vw; margin-top: 3vh; position: absolute;"> 
+    
+        <a href="{% url 'allcontact' %}" class="btn btn-info">View All Contact's</a>
+        </div>
+    {% endif %}
+    
+
+    <div class="contact-container">
+        <div class="contact-heading">
+            <h1>Contact Us</h1>
+            <p>Got a question, feedback, or just want to say hello? We’d love to hear from you! Whether you need support, have a business inquiry, or simply want to chat about BudgetBee, we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible!</p>
+        </div>
+
+        <div class="contact-box">
+            <h2>Get in Touch</h2>
+            <form action="{% url 'contact' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name_contact" placeholder="Enter your name" class="form-control" required  value="{{ user.name }}" >
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email_contact" placeholder="Enter your Email" class="form-control" required  value="{{ user.email }}" >
+                </div>
+                <div class="form-group">
+                    <label for="msg">Your Message:</label>
+                    <textarea id="msg" rows="4" placeholder="Enter your message " class="form-control" name="msg" required></textarea>
+                </div>
+
+                <button class="btn-submit" type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="faq-section container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        What is BudgetBee?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">BudgetBee is a smart financial planning platform designed to help users manage their expenses and savings effectively.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        How can I contact customer support?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">You can contact us via email at support@budgetbee.com or fill out the contact form above.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Is BudgetBee free to use?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Yes! BudgetBee offers free and premium plans to suit different user needs.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        How secure is my financial data?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">We take security seriously. BudgetBee uses encryption and industry-standard security practices to keep your data safe.</div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        Can I access BudgetBee on mobile?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Yes! BudgetBee is fully responsive and works on both desktop and mobile devices.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer">
+            <div class="footer-column">
+                <h3>Budget Bee</h3>
+                <p>Subscribe to Easy Tutorials YouTube channel to watch more videos on website development and get notifications of the latest videos.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Office</h3>
+                <p>Chitkara University<br>Rajpura, near Jhansla<br>Punjab, PIN 140401, India</p>
+                <p>Email: budgetbee@gmail.com</p>
+                <p>Phone: +91 - 0123456789</p>
+            </div>
+            <div class="footer-column">
+                <h3>Links</h3>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'calculator' %}">Services</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contacts</a>
+            </div>
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <input type="email" placeholder="Enter your email id">
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram icon"></i></a>
+                    <a href="#"> <i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Budget Bee © 2025 - All Rights Reserved
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

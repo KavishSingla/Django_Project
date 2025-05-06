@@ -21,6 +21,8 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     path('profile/', views.view_profile, name='profile'),
     path('allprofile/', views.all_profile_view, name='allprofile'),
+    
+    path('allcontact/', views.all_contact_view, name='allcontact'),
 
 
 
